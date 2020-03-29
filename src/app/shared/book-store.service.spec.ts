@@ -41,7 +41,7 @@ describe('BookStoreService', () => {
 
     // Request aus der Warteschlange holen
     const req = httpMock.expectOne(
-      'https://api3.angular-buch.com/secure/books');
+      'https://api4.angular-buch.com/secure/books');
     expect(req.request.method).toEqual('GET'); 
 
     // flush -- jetzt werden die Bücher emittiert
