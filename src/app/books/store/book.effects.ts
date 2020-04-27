@@ -4,7 +4,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import * as BookActions from './book.actions';
-import { BookStoreService } from 'src/app/shared/book-store.service';
+import { BookStoreService } from '../../shared/book-store.service';
 
 @Injectable()
 export class BookEffects {
@@ -13,13 +13,14 @@ export class BookEffects {
     return this.actions$.pipe(
       ofType(BookActions.loadBooks),
       switchMap(() => this.bs.getAll().pipe(
-          map(books => BookActions.loadBooksSuccess({ books })),
-          catchError(error => of(BookActions.loadBooksFailure({ error }))))
+        map(books => BookActions.loadBooksSuccess({ books })),
+        catchError(error => of(BookActions.loadBooksFailure({ error }))))
       )
     );
   });
 
   constructor(
     private actions$: Actions,
-    private bs: BookStoreService) {}
+    private bs: BookStoreService
+  ) {}
 }
