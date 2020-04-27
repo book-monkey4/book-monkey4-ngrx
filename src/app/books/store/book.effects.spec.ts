@@ -1,4 +1,4 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable } from 'rxjs';
 
@@ -16,7 +16,7 @@ describe('BookEffects', () => {
       ]
     });
 
-    effects = TestBed.get(BookEffects);
+    effects = TestBed.get<BookEffects>(BookEffects);
   });
 
   it('should be created', () => {

@@ -5,7 +5,7 @@ import { CanActivate } from '@angular/router';
   providedIn: 'root'
 })
 export class CanNavigateToAdminGuard implements CanActivate {
-
+  
   accessGranted = false;
 
   canActivate(): boolean {

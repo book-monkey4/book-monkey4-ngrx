@@ -6,18 +6,12 @@
       [book]="b"
       [routerLink]="b.isbn"></bm-book-list-item>
 
-    <p *ngIf="!books.length"
-      i18n="@@BookListComponent:no book">
-      Es wurden noch keine Bücher eingetragen.
-    </p>
+    <p *ngIf="!books.length">Es wurden noch keine Bücher eingetragen.</p>
   </ng-container>
 
   <ng-container *ngIf="loading$ | async">
     <div class="ui active dimmer">
-      <div class="ui large text loader"
-        i18n="@@BookListComponent:loading data">
-        Daten werden geladen...
-      </div>
+      <div class="ui large text loader">Daten werden geladen...</div>
     </div>
   </ng-container>
 

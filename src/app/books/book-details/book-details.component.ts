@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
-import { State } from '../../reducers';
-import { LoadBook, DeleteBook } from '../actions/book.actions';
-import { getBookByIsbn } from '../selectors/book.selectors';
 import { Book } from '../../shared/book';
 import { BookStoreService } from '../../shared/book-store.service';
 
@@ -15,23 +10,18 @@ import { BookStoreService } from '../../shared/book-store.service';
   styleUrls: ['./book-details.component.css']
 })
 export class BookDetailsComponent implements OnInit {
-  book$: Observable<Book>;
+  book: Book;
 
   constructor(
     private bs: BookStoreService,
     private router: Router,
-    private route: ActivatedRoute,
-    private store: Store<State>
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    const isbn = this.getIsbn();
-
-    this.book$ = this.store.pipe(
-      select(getBookByIsbn, { isbn })
-    );
-
-    this.store.dispatch(new LoadBook({ isbn }));
+    const params = this.route.snapshot.paramMap;
+    this.bs.getSingle(params.get('isbn'))
+      .subscribe(b => this.book = b);
   }
 
   getRating(num: number) {
@@ -40,12 +30,8 @@ export class BookDetailsComponent implements OnInit {
 
   removeBook() {
     if (confirm('Buch wirklich löschen?')) {
-      const isbn = this.getIsbn();
-      this.store.dispatch(new DeleteBook({ isbn }));
+      this.bs.remove(this.book.isbn)
+        .subscribe(res => this.router.navigate(['../'], { relativeTo: this.route }));
     }
-  }
-
-  getIsbn() {
-    return this.route.snapshot.paramMap.get('isbn');
   }
 }

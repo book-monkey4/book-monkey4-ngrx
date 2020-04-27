@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
-import { State } from '../../reducers'; // Root State!
-import { LoadBooks } from '../actions/book.actions';
-import { getAllBooks, getBooksLoading } from '../selectors/book.selectors';
-import { Book } from '../../shared/book';
+import { loadBooks } from '../store/book.actions';
+import { getAllBooks, getBooksLoading } from '../store/book.selectors';
 
 @Component({
   selector: 'bm-book-list',
@@ -13,15 +10,13 @@ import { Book } from '../../shared/book';
   styleUrls: ['./book-list.component.css']
 })
 export class BookListComponent implements OnInit {
-  books$: Observable<Book[]>;
-  loading$: Observable<boolean>;
 
-  constructor(private store: Store<State>) { }
+  books$ = this.store.pipe(select(getAllBooks));
+  loading$ = this.store.pipe(select(getBooksLoading));
+
+  constructor(private store: Store) { }
 
   ngOnInit() {
-    this.books$ = this.store.pipe(select(getAllBooks));
-    this.loading$ = this.store.pipe(select(getBooksLoading));
-
-    this.store.dispatch(new LoadBooks());
+    this.store.dispatch(loadBooks());
   }
 }
