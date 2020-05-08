@@ -16,7 +16,7 @@ describe('BookEffects', () => {
       ]
     });
 
-    effects = TestBed.get<BookEffects>(BookEffects);
+    effects = TestBed.inject<BookEffects>(BookEffects);
   });
 
   it('should be created', () => {
