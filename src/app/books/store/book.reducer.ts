@@ -25,7 +25,7 @@ export const reducer = createReducer(
   on(BookActions.loadBooksSuccess, (state, action) => {
     return {
       ...state,
-      books: action.books,
+      books: action.data,
       loading: false
     };
   }),

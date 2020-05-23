@@ -13,7 +13,7 @@ export class BookEffects {
     return this.actions$.pipe(
       ofType(BookActions.loadBooks),
       switchMap(() => this.bs.getAll().pipe(
-        map(books => BookActions.loadBooksSuccess({ books })),
+        map(books => BookActions.loadBooksSuccess({ data: books })),
         catchError(error => of(BookActions.loadBooksFailure({ error }))))
       )
     );
