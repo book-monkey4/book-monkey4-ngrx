@@ -16,7 +16,7 @@ export class BookListComponent implements OnInit {
 
   constructor(private store: Store) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.dispatch(loadBooks());
   }
 }
