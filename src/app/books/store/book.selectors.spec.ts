@@ -4,9 +4,9 @@ import { selectBookState } from './book.selectors';
 describe('Book Selectors', () => {
   it('should select the feature state', () => {
     const result = selectBookState({
-      [fromBook.bookFeatureKey]: {}
+      [fromBook.bookFeatureKey]: fromBook.initialState
     });
 
-    expect(result).toEqual({});
+    expect(result).toEqual(fromBook.initialState);
   });
 });
