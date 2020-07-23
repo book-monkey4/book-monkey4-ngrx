@@ -1,12 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { of } from 'rxjs';
 import { BookStoreService } from 'src/app/shared/book-store.service';
 
 import { loadBooks, loadBooksSuccess } from './book.actions';
-import { BookEffects } from './book.effects';
+import { BookEffects } from './book.effects2';
+import { initialState } from './book.reducer';
 import { book } from './my-test-helper';
 
 
@@ -19,6 +21,7 @@ describe('BookEffects', () => {
       providers: [
         BookEffects,
         provideMockActions(() => actions$),
+        provideMockStore({ initialState: { book: initialState } }),
         {
           provide: BookStoreService,
           useValue: {
@@ -31,15 +34,27 @@ describe('BookEffects', () => {
     effects = TestBed.inject(BookEffects);
   });
 
-  it('should fire loadBooksSuccess for loadBooks', () => {
-    const books = [book(1), book(2), book(3)];
-    const bs = TestBed.inject(BookStoreService);
-    spyOn(bs, 'getAll').and.callFake(() => of(books));
+  it('should fire loadBooksSuccess for loadBooks if store is empty', () => {
 
-    actions$ =       hot('--a', { a: loadBooks() });
-    const expected = cold('--b', { b: loadBooksSuccess({ data: books }) });
+    actions$ = hot('--a', { a: loadBooks() });
+    const expected = cold('--b', { b: loadBooksSuccess({ data: [] }) });
 
     expect(effects.loadBooks$).toBeObservable(expected);
-    expect(bs.getAll).toHaveBeenCalled();
+  });
+
+  it('should not fire loadBooksSuccess if store is full', () => {
+
+    const store = TestBed.inject(MockStore);
+    store.setState({
+      book: {
+        books: [book(1)],
+        loading: false
+      }
+    });
+
+    actions$ = hot('--a', { a: loadBooks() });
+    const expected = cold('---');
+
+    expect(effects.loadBooks$).toBeObservable(expected);
   });
 });

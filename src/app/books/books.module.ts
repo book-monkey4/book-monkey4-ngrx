@@ -12,13 +12,14 @@ import { StoreModule } from '@ngrx/store';
 import * as fromBook from './store/book.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { BookEffects } from './store/book.effects';
+import { BookEffects as BookEffects2 } from './store/book.effects2';
 
 @NgModule({
   imports: [
     CommonModule,
     BooksRoutingModule,
     StoreModule.forFeature(fromBook.bookFeatureKey, fromBook.reducer),
-    EffectsModule.forFeature([BookEffects])
+    EffectsModule.forFeature([BookEffects, BookEffects2])
   ],
   declarations: [
     BookListComponent,
