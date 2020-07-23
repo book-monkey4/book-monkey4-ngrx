@@ -13,7 +13,6 @@ import { book } from './my-test-helper';
 describe('BookEffects', () => {
   let actions$: Actions;
   let effects: BookEffects;
-  let bs: jasmine.SpyObj<BookStoreService>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,19 +22,19 @@ describe('BookEffects', () => {
         {
           provide: BookStoreService,
           useValue: {
-            getAll: jasmine.createSpy()
+            getAll: () => of([])
           }
         }
       ]
     });
 
     effects = TestBed.inject(BookEffects);
-    bs = TestBed.inject(BookStoreService) as any;
   });
 
   it('should fire loadBooksSuccess for loadBooks', () => {
     const books = [book(1), book(2), book(3)];
-    bs.getAll.and.callFake(() => of(books));
+    const bs = TestBed.inject(BookStoreService);
+    spyOn(bs, 'getAll').and.callFake(() => of(books));
 
     actions$ =       hot('--a-', { a: loadBooks() });
     const expected = cold('--b', { b: loadBooksSuccess({ data: books }) });
