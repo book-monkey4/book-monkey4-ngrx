@@ -40,7 +40,7 @@ describe('BookEffects', () => {
     let dispatchedAction: Action;
     effects.loadBooks$.subscribe(action => dispatchedAction = action);
 
-    expect(bs.getAll).toHaveBeenCalled();
     expect(dispatchedAction).toEqual(loadBooksSuccess({ data: books }));
+    expect(bs.getAll).toHaveBeenCalled();
   });
 });

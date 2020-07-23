@@ -39,7 +39,7 @@ describe('BookEffects', () => {
     actions$ =       hot('--a-', { a: loadBooks() });
     const expected = cold('--b', { b: loadBooksSuccess({ data: books }) });
 
-    expect(bs.getAll).toHaveBeenCalled();
     expect(effects.loadBooks$).toBeObservable(expected);
+    expect(bs.getAll).toHaveBeenCalled();
   });
 });
