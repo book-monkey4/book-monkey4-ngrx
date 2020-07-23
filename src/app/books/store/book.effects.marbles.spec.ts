@@ -8,6 +8,8 @@ import { BookStoreService } from 'src/app/shared/book-store.service';
 import { loadBooks, loadBooksSuccess } from './book.actions';
 import { BookEffects } from './book.effects';
 import { book } from './my-test-helper';
+import { hot, cold } from 'jasmine-marbles';
+
 
 
 describe('BookEffects', () => {
@@ -22,7 +24,7 @@ describe('BookEffects', () => {
         {
           provide: BookStoreService,
           useValue: {
-            getAll: () => of([])
+            getAll: () => []
           }
         }
       ]
@@ -36,11 +38,10 @@ describe('BookEffects', () => {
     const bs = TestBed.inject(BookStoreService);
     spyOn(bs, 'getAll').and.callFake(() => of(books));
 
-    actions$ = of(loadBooks());
-    let dispatchedAction: Action;
-    effects.loadBooks$.subscribe(action => dispatchedAction = action);
+    actions$ =       hot('--a-', { a: loadBooks() });
+    const expected = cold('--b', { b: loadBooksSuccess({ data: books }) });
 
     expect(bs.getAll).toHaveBeenCalled();
-    expect(dispatchedAction).toEqual(loadBooksSuccess({ data: books }));
+    expect(effects.loadBooks$).toBeObservable(expected);
   });
 });
