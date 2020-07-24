@@ -12,7 +12,7 @@ describe('Book Selectors', () => {
       }
     };
 
-    const result = selectAllBooks(state); 
+    const result = selectAllBooks(state);
     expect(result).toEqual(books);
   });
 });

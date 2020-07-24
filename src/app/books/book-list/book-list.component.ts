@@ -10,7 +10,6 @@ import { selectAllBooks, selectBooksLoading } from '../store/book.selectors';
   styleUrls: ['./book-list.component.css']
 })
 export class BookListComponent implements OnInit {
-
   books$ = this.store.pipe(select(selectAllBooks));
   loading$ = this.store.pipe(select(selectBooksLoading));
 

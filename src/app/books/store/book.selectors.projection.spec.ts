@@ -10,7 +10,7 @@ describe('Book Selectors', () => {
       loading: false
     };
 
-    const result = selectAllBooks.projector(bookState); 
+    const result = selectAllBooks.projector(bookState);
     expect(result).toEqual(books);
   });
 });

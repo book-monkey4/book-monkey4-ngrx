@@ -10,7 +10,7 @@ describe('Book Reducer', () => {
     };
     const action = loadBooks();
 
-    const newState = reducer(state, action); 
+    const newState = reducer(state, action);
     expect(newState.loading).toBe(true);
   });
 });
