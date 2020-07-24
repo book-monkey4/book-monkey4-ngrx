@@ -18,8 +18,5 @@ export class BookListComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadBooks());
-
-    // just for testing
-    setTimeout(() => this.store.dispatch(loadBooks()), 5000);
   }
 }

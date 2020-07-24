@@ -36,7 +36,7 @@ describe('BookEffects', () => {
     const bs = TestBed.inject(BookStoreService);
     spyOn(bs, 'getAll').and.callFake(() => of(books));
 
-    actions$ =       hot('--a', { a: loadBooks() });
+    actions$ =        hot('--a', { a: loadBooks() });
     const expected = cold('--b', { b: loadBooksSuccess({ data: books }) });
 
     expect(effects.loadBooks$).toBeObservable(expected);

@@ -21,7 +21,9 @@ describe('BookEffects', () => {
       providers: [
         BookEffects,
         provideMockActions(() => actions$),
-        provideMockStore({ initialState: { book: initialState } }),
+        provideMockStore({
+          initialState: { book: initialState }
+        }),
         {
           provide: BookStoreService,
           useValue: {
@@ -42,7 +44,7 @@ describe('BookEffects', () => {
     expect(effects.loadBooks$).toBeObservable(expected);
   });
 
-  it('should not fire loadBooksSuccess if store is full', () => {
+  it('should do nothing if store is already filled', () => {
 
     const store = TestBed.inject(MockStore);
     store.setState({
@@ -52,7 +54,7 @@ describe('BookEffects', () => {
       }
     });
 
-    actions$ = hot('--a', { a: loadBooks() });
+    actions$ =        hot('--a', { a: loadBooks() });
     const expected = cold('---');
 
     expect(effects.loadBooks$).toBeObservable(expected);
